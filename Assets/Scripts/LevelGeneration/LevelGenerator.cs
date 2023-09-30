@@ -40,56 +40,56 @@ public class LevelGenerator : MonoBehaviour
 
         int roomsPlaced = 1;
 
-        while (queue.Count > 0 && roomsPlaced < roomCount)
+        while(queue.Count > 0 && roomsPlaced < roomCount)
         {
             Vector2Int currentCell = queue[0];
             queue.RemoveAt(0);
-
+            
             Vector2Int[] directions = {
                 new Vector2Int(0, 1), // Up
                 new Vector2Int(0, -1), // Down
                 new Vector2Int(1, 0), // Right
                 new Vector2Int(-1, 0) // Left
             };
-
+            
             foreach (var direction in directions)
             {
                 Vector2Int neighborCell = currentCell + direction;
-
+                
                 // Check boundaries and if neighbor cell is already occupied
                 if (!IsValidCell(neighborCell) || grid[neighborCell.x, neighborCell.y] != 0)
                     continue;
-
+                
                 // Check the number of filled neighbors
                 int filledNeighbors = GetFilledNeighborCount(neighborCell);
                 if (filledNeighbors > 1)
                     continue;
-
+                
                 // Random 50% chance
                 if (Random.value < 0.5f)
                     continue;
-
+                
                 // Mark neighbor cell as having a room
                 grid[neighborCell.x, neighborCell.y] = 1;
                 levelGrid[neighborCell.x, neighborCell.y] = true;  // Updated line
-
+                
                 roomsPlaced++;
                 queue.Add(neighborCell);
-
+                
                 // If we have placed all rooms, break
                 if (roomsPlaced >= roomCount)
                     break;
             }
-
+            
             if (roomsPlaced >= roomCount)
                 break;
-
+            
             // Add current cell to endRooms if no neighbor was valid
             endRooms.Add(currentCell);
         }
 
         VisualizeLevel();
-
+        
         // Further steps for placing special rooms and normal rooms...
     }
 
@@ -102,15 +102,7 @@ public class LevelGenerator : MonoBehaviour
                 if (grid[x, y] == 1)  // If there is a room at this grid cell
                 {
                     Vector3 position = new Vector3(x * roomWidth, y * roomHeight, 0);
-                    GameObject prefabToInstantiate;
-                    if (x == 4 && y == 3)  // Check if the current cell is the center cell
-                    {
-                        prefabToInstantiate = roomData.roomTBLR;  // Use the TBLR room for the center cell
-                    }
-                    else
-                    {
-                        prefabToInstantiate = SelectRoomPrefab(x, y);
-                    }
+                    GameObject prefabToInstantiate = SelectRoomPrefab(x, y);
                     Instantiate(prefabToInstantiate, position, Quaternion.identity, levelContainer);
                 }
             }
@@ -118,47 +110,22 @@ public class LevelGenerator : MonoBehaviour
     }
 
     string GetDoorIdentifier(Vector2Int position)
-    {
-        string doorIdentifier = "";
+{
+    string doorIdentifier = "";
 
-        Vector2Int up = position + Vector2Int.up;
-        Vector2Int down = position + Vector2Int.down;
-        Vector2Int left = position + Vector2Int.left;
-        Vector2Int right = position + Vector2Int.right;
+    Vector2Int up = position + Vector2Int.up;
+    Vector2Int down = position + Vector2Int.down;
+    Vector2Int left = position + Vector2Int.left;
+    Vector2Int right = position + Vector2Int.right;
 
-        if (IsRoomAt(up)) doorIdentifier += "T";
-        if (IsRoomAt(down)) doorIdentifier += "B";
-        if (IsRoomAt(left)) doorIdentifier += "L";
-        if (IsRoomAt(right)) doorIdentifier += "R";
+    if (IsValidCell(up) && grid[up.x, up.y] == 1) doorIdentifier += "T";
+    if (IsValidCell(down) && grid[down.x, down.y] == 1) doorIdentifier += "B";
+    if (IsValidCell(left) && grid[left.x, left.y] == 1) doorIdentifier += "L";
+    if (IsValidCell(right) && grid[right.x, right.y] == 1) doorIdentifier += "R";
 
-        return doorIdentifier;
-    }
+    return doorIdentifier;
+}
 
-    bool IsCellOccupied(Vector2Int position)
-    {
-        // Check if the position is within bounds
-        if (position.x >= 0 && position.x < 9 && position.y >= 0 && position.y < 8)
-        {
-            return levelGrid[position.x, position.y];
-        }
-        return false;
-    }
-
-    bool IsRoomAt(Vector2Int position)
-    {
-        // Ensure position is within bounds
-        if (position.x < 0 || position.x >= GridWidth || position.y < 0 || position.y >= GridHeight)
-            return false;
-
-        return grid[position.x, position.y] == 1;
-    }
-
-    GameObject SelectRoomPrefab(int x, int y)
-    {
-        string doorIdentifier = GetDoorIdentifier(new Vector2Int(x, y));
-        Debug.Log($"Door Identifier: {doorIdentifier}");  // Add debug output here
-        return roomData.GetRoomPrefab(doorIdentifier);
-    }
 
     bool IsValidCell(Vector2Int cell)
     {
@@ -174,14 +141,21 @@ public class LevelGenerator : MonoBehaviour
             new Vector2Int(1, 0), // Right
             new Vector2Int(-1, 0) // Left
         };
-
+        
         foreach (var direction in directions)
         {
             Vector2Int neighborCell = cell + direction;
             if (IsValidCell(neighborCell) && grid[neighborCell.x, neighborCell.y] != 0)
                 count++;
         }
-
+        
         return count;
+    }
+
+    GameObject SelectRoomPrefab(int x, int y)
+    {
+        string doorIdentifier = GetDoorIdentifier(new Vector2Int(x, y));
+        Debug.Log($"Door Identifier: {doorIdentifier}");  // Add debug output here
+        return roomData.GetRoomPrefab(doorIdentifier);
     }
 }

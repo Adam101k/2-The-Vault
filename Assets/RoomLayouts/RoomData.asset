@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d616d04359eb31846beffadae5af4502, type: 3}
   m_Name: RoomData
   m_EditorClassIdentifier: 
-  room: {fileID: 0}
+  room: {fileID: 8706213197486730240, guid: 64b03bbe7f9c3954ca185fb532cd839d, type: 3}
   roomT: {fileID: 9182181095354106395, guid: 5483a5ebf4cf32143a72a91e81d7f2b7, type: 3}
   roomB: {fileID: 4320312904361905845, guid: 4e370f9315dd4ce4490b1407394c930f, type: 3}
   roomL: {fileID: 8183529832540111586, guid: 5afecaa5c17450049a0bd35e5ab27915, type: 3}
@@ -25,6 +25,6 @@ MonoBehaviour:
   roomLR: {fileID: 8183529832540111586, guid: 4936012258de50b41a068edcacb5b28d, type: 3}
   roomTBL: {fileID: 9191574209014125559, guid: fac70caaf1b115546bf8e2dd39570846, type: 3}
   roomTBR: {fileID: 3210882496082501730, guid: 8111057ca4b990143a719f1f7e55c189, type: 3}
-  roomTLR: {fileID: 0}
+  roomTLR: {fileID: 7386726944024349749, guid: 839e2ea3ba41e9249886040717b96cf3, type: 3}
   roomBLR: {fileID: 7962284858285906874, guid: 47dc7a942d440774092ef6c56dd1dfd1, type: 3}
   roomTBLR: {fileID: 1637053509826090890, guid: fc4f8606c2d77c2429f661bb40d35418, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomCamManager : MonoBehaviour
 {
     public GameObject virtualCam;
-    void Start()
+    void Awake()
     {
         virtualCam = transform.Find("Virtual Camera").gameObject;
     }
