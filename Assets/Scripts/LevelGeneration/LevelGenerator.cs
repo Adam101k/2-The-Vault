@@ -104,25 +104,34 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    string GetDoorIdentifier(Vector2Int position)
+    {
+        string doorIdentifier = "";
+
+        // Check each neighbor and add to doorIdentifier if there's a room
+        if (IsRoomAt(position + Vector2Int.up)) doorIdentifier += "T";
+        if (IsRoomAt(position + Vector2Int.left)) doorIdentifier += "L";
+        if (IsRoomAt(position + Vector2Int.right)) doorIdentifier += "R";
+        if (IsRoomAt(position + Vector2Int.down)) doorIdentifier += "B";
+
+        return doorIdentifier;
+    }
+
+    bool IsRoomAt(Vector2Int position)
+    {
+        // Ensure position is within bounds
+        if (position.x < 0 || position.x >= GridWidth || position.y < 0 || position.y >= GridHeight)
+            return false;
+
+        return grid[position.x, position.y] == 1;
+    }
+
     GameObject SelectRoomPrefab(int x, int y)
     {
-        // Example: Place boss room in the last room of the endRooms list
-        if (endRooms.Contains(new Vector2Int(x, y)) && endRooms.IndexOf(new Vector2Int(x, y)) == endRooms.Count - 1)
-        {
-            return roomData.bossRoomPrefab;
-        }
-
-        // Example: Place secret room if there are at least 3 neighboring rooms
-        int filledNeighborCount = GetFilledNeighborCount(new Vector2Int(x, y));
-        if (filledNeighborCount >= 3)
-        {
-            return roomData.secretRoomPrefab;
-        }
-
-        // Default to normal room prefab
-        return roomData.normalRoomPrefab;
+        string doorIdentifier = GetDoorIdentifier(new Vector2Int(x, y));
+        return roomData.GetRoomPrefab(doorIdentifier);
     }
-    
+
     bool IsValidCell(Vector2Int cell)
     {
         return cell.x >= 0 && cell.x < GridWidth && cell.y >= 0 && cell.y < GridHeight;
