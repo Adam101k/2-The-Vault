@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d616d04359eb31846beffadae5af4502, type: 3}
+  m_Name: RoomData
+  m_EditorClassIdentifier: 
+  room: {fileID: 0}
+  roomT: {fileID: 9182181095354106395, guid: 5483a5ebf4cf32143a72a91e81d7f2b7, type: 3}
+  roomB: {fileID: 4320312904361905845, guid: 4e370f9315dd4ce4490b1407394c930f, type: 3}
+  roomL: {fileID: 8183529832540111586, guid: 5afecaa5c17450049a0bd35e5ab27915, type: 3}
+  roomR: {fileID: 4320312904361905845, guid: 269b3a4301fc86b459fd13d970a7bff9, type: 3}
+  roomTB: {fileID: 9182181095354106395, guid: a6ae51aab15bfc84c8a6205e525ad3aa, type: 3}
+  roomTL: {fileID: 9182181095354106395, guid: 7ddc368d0dcff1340848dac139f35c43, type: 3}
+  roomTR: {fileID: 9182181095354106395, guid: 8b2ff72704a34044687c2cfb823db066, type: 3}
+  roomBL: {fileID: 5352151474225814274, guid: a5d110ef89186964aac976befefafa11, type: 3}
+  roomBR: {fileID: 5352151474225814274, guid: a4ca1a092b14e744fa726825c7a926f3, type: 3}
+  roomLR: {fileID: 8183529832540111586, guid: 4936012258de50b41a068edcacb5b28d, type: 3}
+  roomTBL: {fileID: 9191574209014125559, guid: fac70caaf1b115546bf8e2dd39570846, type: 3}
+  roomTBR: {fileID: 3210882496082501730, guid: 8111057ca4b990143a719f1f7e55c189, type: 3}
+  roomTLR: {fileID: 0}
+  roomBLR: {fileID: 7962284858285906874, guid: 47dc7a942d440774092ef6c56dd1dfd1, type: 3}
+  roomTBLR: {fileID: 1637053509826090890, guid: fc4f8606c2d77c2429f661bb40d35418, type: 3}
