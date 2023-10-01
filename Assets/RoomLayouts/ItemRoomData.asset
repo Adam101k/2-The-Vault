@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ItemRoomData
   m_EditorClassIdentifier: 
   room: {fileID: 0}
-  roomT: {fileID: 0}
-  roomB: {fileID: 0}
-  roomL: {fileID: 0}
-  roomR: {fileID: 0}
+  roomT: {fileID: 3501810852608496458, guid: d38ece10acb900d45bb84bb38c768ed8, type: 3}
+  roomB: {fileID: 3501810852608496458, guid: 1f0c0e6bcfb15fe4eaac5c1442c02d19, type: 3}
+  roomL: {fileID: 3501810852608496458, guid: 3ab2d594ee091c24e9dcd1f8d9ae436b, type: 3}
+  roomR: {fileID: 3501810852608496458, guid: f9afcdf6d3b21204a86b10fce6a2ccc3, type: 3}
   roomTB: {fileID: 0}
   roomTL: {fileID: 0}
   roomTR: {fileID: 0}
