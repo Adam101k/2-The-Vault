@@ -11,6 +11,15 @@ public class EnemyRoom : MonoBehaviour
     private int difficultyScale = 1;
     private List<GameObject> currentEnemies = new List<GameObject>();  // List to hold current enemies in the room
 
+
+    private void Awake()
+    {
+        lockInWalls = transform.Find("PreventLeaving").gameObject;
+        if (lockInWalls == null)  // Optional null check for safety
+        {
+            Debug.LogError("PreventLeaving child object not found");
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !hasEntered)  // Assuming your player has the tag "Player"
