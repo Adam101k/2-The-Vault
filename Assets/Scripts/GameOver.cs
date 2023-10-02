@@ -9,7 +9,7 @@ public class GameOver : MonoBehaviour
     public TMP_Text gameOverMessage;
     public string[] gameOverMessages;
 
-    private bool resetPrompt = false;
+    public bool resetPrompt = false;
     public KeyCode quitKey = KeyCode.Escape;
     public KeyCode resetKey = KeyCode.R;
     public void GameOverMan() {

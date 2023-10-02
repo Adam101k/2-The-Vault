@@ -5,19 +5,35 @@ using UnityEngine;
 public class EnemyRoom : MonoBehaviour
 {
     public GameObject lockInWalls;
-    public GameObject[] enemySpawnPoints;
+    public List<GameObject> enemySpawnPoints;  // Changed to List for dynamic size
     public GameObject[] enemyPrefabs;  // Prefabs of different enemies
     private bool hasEntered = false;
-    private int difficultyScale = 1;
+    public int difficultyScale = 1;
+    public int minSpawnAmount = 4;
     private List<GameObject> currentEnemies = new List<GameObject>();  // List to hold current enemies in the room
 
 
     private void Awake()
     {
         lockInWalls = transform.Find("PreventLeaving").gameObject;
-        if (lockInWalls == null)  // Optional null check for safety
+        if (lockInWalls == null)
         {
             Debug.LogError("PreventLeaving child object not found");
+        }
+        
+        // Get the SpawnNodeHolder
+        Transform spawnNodeHolder = transform.Find("SpawnNodeHolder");
+        if (spawnNodeHolder == null)
+        {
+            Debug.LogError("SpawnNodeHolder child object not found");
+            return;
+        }
+
+        // Automatically assign each child of SpawnNodeHolder as a node
+        enemySpawnPoints = new List<GameObject>();  // Initialize list
+        foreach (Transform child in spawnNodeHolder)
+        {
+            enemySpawnPoints.Add(child.gameObject);
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -45,28 +61,46 @@ public class EnemyRoom : MonoBehaviour
     }
 
     private void SpawnEnemies()
+{
+    List<GameObject> eligibleEnemyPrefabs = new List<GameObject>();
+
+    // Filter enemy prefabs based on difficulty tag
+    foreach (GameObject enemyPrefab in enemyPrefabs)
     {
-        List<GameObject> eligibleEnemyPrefabs = new List<GameObject>();
-
-        // Filter enemy prefabs based on difficulty tag
-        foreach (GameObject enemyPrefab in enemyPrefabs)
+        if (int.Parse(enemyPrefab.tag) <= difficultyScale)  // Assuming tags are strings that can be parsed into ints representing difficulty
         {
-            if (int.Parse(enemyPrefab.tag) <= difficultyScale)  // Assuming tags are strings that can be parsed into ints representing difficulty
-            {
-                eligibleEnemyPrefabs.Add(enemyPrefab);
-            }
-        }
-
-        foreach (GameObject spawnPoint in enemySpawnPoints)
-        {
-            if (eligibleEnemyPrefabs.Count > 0)  // Check to avoid errors if no eligible prefabs
-            {
-                int enemyIndex = Random.Range(0, eligibleEnemyPrefabs.Count);  // Randomly select an enemy type from eligible list
-                GameObject enemyInstance = Instantiate(eligibleEnemyPrefabs[enemyIndex], spawnPoint.transform.position, Quaternion.identity);
-                currentEnemies.Add(enemyInstance);
-            }
+            eligibleEnemyPrefabs.Add(enemyPrefab);
         }
     }
+
+    // Shuffle the spawn points array
+    System.Random rng = new System.Random();
+    int n = enemySpawnPoints.Count;
+    while (n > 1)
+    {
+        n--;
+        int k = rng.Next(n + 1);
+        GameObject value = enemySpawnPoints[k];
+        enemySpawnPoints[k] = enemySpawnPoints[n];
+        enemySpawnPoints[n] = value;
+    }
+
+    // Set a limit on how many spawn points to use
+    int spawnLimit = Mathf.Min(minSpawnAmount, enemySpawnPoints.Count);  // For example, use up to 5 spawn points
+
+    // Only spawn enemies at the first 'spawnLimit' spawn points
+    for (int i = 0; i < spawnLimit; i++)
+    {
+        GameObject spawnPoint = enemySpawnPoints[i];
+        if (eligibleEnemyPrefabs.Count > 0)  // Check to avoid errors if no eligible prefabs
+        {
+            int enemyIndex = Random.Range(0, eligibleEnemyPrefabs.Count);  // Randomly select an enemy type from eligible list
+            GameObject enemyInstance = Instantiate(eligibleEnemyPrefabs[enemyIndex], spawnPoint.transform.position, Quaternion.identity);
+            currentEnemies.Add(enemyInstance);
+        }
+    }
+}
+
 
     private bool AreEnemiesAlive()
     {
