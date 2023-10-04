@@ -7,6 +7,7 @@ TagManager:
   - Unit
   - 1
   - 2
+  - Wall
   layers:
   - Default
   - TransparentFX

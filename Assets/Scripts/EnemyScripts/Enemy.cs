@@ -9,20 +9,23 @@ public class Enemy : MonoBehaviour
     public Sprite[] headDirectionSprites; // Assign your 8-direction head sprites in the inspector.
     private SpriteRenderer headSpriteRenderer;
     private SimpleAI unit;
+    public bool canRotateHead = true;
 
     public void Start() {
         headSpriteRenderer = transform.Find("Head").GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
         unit = GetComponent<SimpleAI>();
         // Set default sprites
-        if (headDirectionSprites.Length > 0)
+        if (headDirectionSprites.Length > 0 && canRotateHead)
         {
             headSpriteRenderer.sprite = headDirectionSprites[2]; 
         }
     }
 
     void Update() {
-        HandleHeadDirection();
+        if (canRotateHead) {
+            HandleHeadDirection();
+        }
     }
 
     public void TakeDamage(int amount) {

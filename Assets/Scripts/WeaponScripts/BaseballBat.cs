@@ -90,7 +90,9 @@ public class BaseballBat : MonoBehaviour
             }
 
             Vector2 knockbackDirection = enemy.transform.position - transform.position;
-            enemy.GetComponent<SimpleAI>().ApplyKnockback(knockbackDirection, knockbackMagnitude);
+            if(enemy.GetComponent<SimpleAI>() != null) {
+                enemy.GetComponent<SimpleAI>().ApplyKnockback(knockbackDirection, knockbackMagnitude);
+            }
         }
     }
 

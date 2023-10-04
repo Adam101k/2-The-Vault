@@ -11,6 +11,7 @@ public class SimpleAI : MonoBehaviour
     private bool isKnockedBack;
     private float knockbackEndTime;
     public float maxVelocity = 10f;
+    public bool canKnockBack = true;
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -53,7 +54,7 @@ void FixedUpdate()
 
     public void ApplyKnockback(Vector2 knockbackDirection, float knockbackMagnitude)
 {
-    if (!isKnockedBack)  // Only apply knockback if the enemy is not already being knocked back
+    if (!isKnockedBack && canKnockBack)  // Only apply knockback if the enemy is not already being knocked back
     {
         Vector2 normalizedKnockbackDirection = knockbackDirection.normalized;
         rb.velocity = Vector2.zero;  // Reset velocity
