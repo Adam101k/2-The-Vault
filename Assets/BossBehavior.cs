@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossBehavior : MonoBehaviour
@@ -7,7 +6,7 @@ public class BossBehavior : MonoBehaviour
     public BossState currentState;
 
     private Rigidbody2D rb;
-    public float maxVelocity = 10f;
+    public float maxVelocity = 5f;
 
     // Pursuit variables
     public float slowPursuitSpeed = 2.0f;
@@ -25,127 +24,158 @@ public class BossBehavior : MonoBehaviour
     public float startChargeRange = 5f;
     public float startShootRange = 8f;
 
+    // Charging variables
+    public float chargeCooldownTime = 5.0f; // NEW: Cooldown time after a charge.
+    private bool isChargeOnCooldown = false; // NEW: Check if charge is on cooldown.
+
     private Transform player;
 
     private bool isChargingPreparationStarted = false;
-    
-    void Start() {
+
+    private Color originalColor;
+    public SpriteRenderer bodySprite;
+
+    void Start()
+    {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
+
+        originalColor = bodySprite.color; // store the original color of the boss
         currentState = BossState.SlowPursuit;
     }
 
-void Update()
-{
-    switch(currentState)
+    void Update()
     {
-        case BossState.SlowPursuit:
-            SlowPursuit();
-            
-            if (Vector3.Distance(transform.position, player.position) < startChargeRange) {
-                currentState = BossState.ChargingPreparation;
-                break; // Important to exit the switch statement after changing state
-            }
+        switch (currentState)
+        {
+            case BossState.SlowPursuit:
+                SlowPursuit();
 
-            if (Vector3.Distance(transform.position, player.position) >= startShootRange) {
-                currentState = BossState.ProjectileShooting;
-                rb.velocity = Vector2.zero; // Stop the boss from moving.
-                StartCoroutine(ProjectileShooting());
+                if (Vector3.Distance(transform.position, player.position) < startChargeRange)
+                {
+                    currentState = BossState.ChargingPreparation;
+                }
+                else if (Vector3.Distance(transform.position, player.position) >= startShootRange)
+                {
+                    currentState = BossState.ProjectileShooting;
+                    rb.velocity = Vector2.zero;
+                    StartCoroutine(ProjectileShooting());
+                }
                 break;
-            }
-            break;
 
-        case BossState.ChargingPreparation:
-            if (!isChargingPreparationStarted)
-            {
-                isChargingPreparationStarted = true;
-                StartCoroutine(ChargingPreparation());
-            }
-            break;
+            case BossState.ChargingPreparation:
+                if (!isChargingPreparationStarted)
+                {
+                    isChargingPreparationStarted = true;
+                    StartCoroutine(ChargingPreparation());
+                }
+                break;
 
-        case BossState.ProjectileShooting:
-            // Shooting is handled in the coroutine.
-            break;
+            case BossState.Charging:
+                // Charging is initiated in the ChargingPreparation coroutine 
+                // and continued here until a collision occurs.
+                break;
+
+            case BossState.ProjectileShooting:
+                // Shooting is handled in the coroutine.
+                break;
+        }
     }
-}
-
 
     void SlowPursuit()
-    {
-        float distanceToTarget = Vector2.Distance(transform.position, player.position);
-        Vector2 directionToTarget = (player.position - transform.position).normalized;
-        rb.velocity = Vector2.ClampMagnitude(directionToTarget * slowPursuitSpeed, maxVelocity);
-    }
-    
-    IEnumerator ChargingPreparation()
 {
-    // Step 1: Stop the boss from moving.
-    rb.velocity = Vector2.zero;
-
-    // Step 2: Play your custom charge animation here.
-    // For instance, if you're using an Animator, you'd do something like:
-    // animator.SetTrigger("ChargeUp");
-    // Note: Replace with your own code if necessary!
-
-    // Wait for the charge preparation time.
-    yield return new WaitForSeconds(chargePreparationTime);
-
-    // Step 3: Now, let the boss charge towards the player.
-    float distanceToTarget = Vector2.Distance(transform.position, player.position);
     Vector2 directionToTarget = (player.position - transform.position).normalized;
-    rb.velocity = directionToTarget * chargeSpeed;
+    rb.velocity = Vector2.ClampMagnitude(directionToTarget * slowPursuitSpeed, maxVelocity);
 
-    // Reset the flag for the next charge.
-    isChargingPreparationStarted = false;
-}
-
-
-
-// If you're using a collider for the walls
-private void OnCollisionEnter2D(Collision2D collision)
-{
-    if (currentState == BossState.ChargingPreparation && collision.gameObject.CompareTag("Wall"))
+    if (!isChargeOnCooldown)
     {
-        Debug.Log("Boss hit wall");
-        rb.velocity = Vector2.zero;  // Stop the boss
-        currentState = BossState.SlowPursuit; // Transition back to slow pursuit or another state if preferred
+        if (Vector3.Distance(transform.position, player.position) < startChargeRange)
+        {
+            currentState = BossState.ChargingPreparation;
+        }
+        else if (Vector3.Distance(transform.position, player.position) >= startShootRange)
+        {
+            currentState = BossState.ProjectileShooting;
+            rb.velocity = Vector2.zero;
+            StartCoroutine(ProjectileShooting());
+        }
     }
 }
 
+
+    IEnumerator ChargingPreparation()
+    {
+        rb.velocity = Vector2.zero;
+        // Add your animation or sound effects here.
+        yield return new WaitForSeconds(chargePreparationTime);
+
+        // Switch to Charging state after preparation is complete.
+        currentState = BossState.Charging;
+        Vector2 directionToTarget = (player.position - transform.position).normalized;
+        rb.velocity = directionToTarget * chargeSpeed;
+
+        isChargingPreparationStarted = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+{
+    // Check for collision during Charging state
+    if (currentState == BossState.Charging && (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Player")))
+    {
+        Debug.Log("Boss finished charging");
+        rb.velocity = Vector2.zero;  // Stop the boss
+        currentState = BossState.SlowPursuit;
+        if (!isChargeOnCooldown) // Ensure the cooldown isn't already running
+        {
+            StartCoroutine(StartChargeCooldown());  // Start the cooldown after a charge
+        }
+    }
+}
+
+
+    IEnumerator StartChargeCooldown()
+{
+    Debug.Log("Cooldown Started!"); // log for debugging
+    bodySprite.color = Color.red; // change boss color to red for visual indication
+
+    isChargeOnCooldown = true;  // Start the cooldown
+    yield return new WaitForSeconds(chargeCooldownTime);  // Wait for the cooldown duration
+
+    Debug.Log("Cooldown Ended!"); // log for debugging
+    bodySprite.color = originalColor; // revert boss color to its original color
+
+    isChargeOnCooldown = false;  // End the cooldown
+}
 
     IEnumerator ProjectileShooting()
-{
-    while(currentState == BossState.ProjectileShooting)
     {
-        // If the player gets too close, exit the shooting state
-        if(Vector3.Distance(transform.position, player.position) < startChargeRange) {
-            currentState = BossState.SlowPursuit;
-            StopCoroutine(ProjectileShooting());  // Important to stop the current coroutine
-            yield break;  // Exit the coroutine
+        while (currentState == BossState.ProjectileShooting)
+        {
+            if (Vector3.Distance(transform.position, player.position) < startChargeRange)
+            {
+                currentState = BossState.SlowPursuit;
+                StopCoroutine(ProjectileShooting());
+                yield break;
+            }
+
+            Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+            yield return new WaitForSeconds(shootingDelay);
         }
-
-        Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-        yield return new WaitForSeconds(shootingDelay);
     }
-}
-
 
     void OnDrawGizmosSelected()
-{
-    // Draw a red sphere at your boss's position with a radius of startChargeRange
-    Gizmos.color = Color.red;
-    Gizmos.DrawWireSphere(transform.position, startChargeRange);
-
-    // Draw a blue sphere at your boss's position with a radius of startShootRange
-    Gizmos.color = Color.blue;
-    Gizmos.DrawWireSphere(transform.position, startShootRange);
-}
-
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, startChargeRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, startShootRange);
+    }
 }
 
 public enum BossState
 {
     SlowPursuit,
     ChargingPreparation,
+    Charging,
     ProjectileShooting
 }

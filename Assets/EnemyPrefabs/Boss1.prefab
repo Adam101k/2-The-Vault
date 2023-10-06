@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3121233391407714510}
   - component: {fileID: 3121233391407714511}
   - component: {fileID: 3121233391407714506}
-  - component: {fileID: 7265117432073698833}
+  - component: {fileID: 8583020896268364344}
   m_Layer: 6
   m_Name: Boss1
   m_TagString: 1
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3121233391407714509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.55557, y: 76.45636, z: 0}
+  m_LocalPosition: {x: 70.43472, y: 32.693954, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -39,7 +39,7 @@ Transform:
   - {fileID: 3121233393224965365}
   - {fileID: 7265117431023932694}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3121233391407714504
 MonoBehaviour:
@@ -322,7 +322,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7265117432073698833
+--- !u!114 &8583020896268364344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,15 +335,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  maxVelocity: 20
+  maxVelocity: 5
   slowPursuitSpeed: 2
-  chargePreparationTime: 0.1
-  chargeSpeed: 5
+  chargePreparationTime: 2
+  chargeSpeed: 10
   projectilePrefab: {fileID: 4973331295310304955, guid: cbc60439767bf9240ac17d6b14ae529e, type: 3}
   projectileSpawnPoint: {fileID: 7265117431023932694}
   shootingDelay: 2
-  startChargeRange: 2.78
-  startShootRange: 4.15
+  startChargeRange: 3
+  startShootRange: 5.14
+  chargeCooldownTime: 3
+  bodySprite: {fileID: 3121233391545111572}
 --- !u!1 &3121233391545111562
 GameObject:
   m_ObjectHideFlags: 0
