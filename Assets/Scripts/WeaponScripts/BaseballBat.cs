@@ -118,7 +118,7 @@ public class BaseballBat : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
 {
     // Fetch the current rotation angle of the player or weapon
     float angle = transform.eulerAngles.z * Mathf.Deg2Rad;  // Convert to radians for trigonometry

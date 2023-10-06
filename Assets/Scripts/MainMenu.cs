@@ -6,12 +6,37 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
     public GameObject logoScreenCover;
+    public GameObject MainMenuObj;
     private bool CoverStartActive = true;
+    private bool MainMenuActive = false;
     public KeyCode StartKey = KeyCode.Return;
+    public KeyCode EscapeKey = KeyCode.Escape;
     private void Update() {
-        if(CoverStartActive && Input.GetKeyDown(StartKey)) {
-            logoScreenCover.SetActive(false);
+        if(CoverStartActive && Input.GetKeyDown(StartKey) && !MainMenuActive) {
+            logoScreenCover.GetComponent<Animator>().SetBool("CoverIsOpen", true);
+            MainMenuObj.GetComponent<Animator>().SetBool("MenuIsOpen", true);
+            CoverStartActive = false;
+            MainMenuActive = true;
         }
+        
+        if(!CoverStartActive && Input.GetKeyDown(EscapeKey) && MainMenuActive) {
+            logoScreenCover.GetComponent<Animator>().SetBool("CoverIsOpen", false);
+            MainMenuObj.GetComponent<Animator>().SetBool("MenuIsOpen", false);
+            CoverStartActive = true;
+            MainMenuActive = false;
+        }
+    }
+
+    public void PlayGame() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void ExitGame() {
+        //
+    }
+
+    public void OpenOptionMenu() {
+        //
     }
     
 }
