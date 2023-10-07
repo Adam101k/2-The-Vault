@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private SimpleFlash flashEffect;
     public int currentHealth;
     public int maxHealth;
     public int damageAmount = 1;
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     public bool canRotateHead = true;
 
     public void Start() {
+        flashEffect = GetComponent<SimpleFlash>();
         headSpriteRenderer = transform.Find("Head").GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
         unit = GetComponent<SimpleAI>();
@@ -33,6 +35,8 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0) {
             Destroy(gameObject);
         }
+        flashEffect.Flash();
+
     }
 
     public void HandleHeadDirection() {

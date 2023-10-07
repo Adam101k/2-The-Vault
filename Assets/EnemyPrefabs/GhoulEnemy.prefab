@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8800091341185158409}
   - component: {fileID: 8800091341185158410}
   - component: {fileID: 8800091341185158412}
+  - component: {fileID: -2722971033905840008}
   m_Layer: 6
   m_Name: GhoulEnemy
   m_TagString: 2
@@ -143,7 +144,7 @@ Transform:
   - {fileID: 8800091340970297811}
   - {fileID: 8800091341983187251}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8800091341185158414
 MonoBehaviour:
@@ -157,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2c9384353427d45b7fdda9852faba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashEffect: {fileID: 0}
   currentHealth: 100
   maxHealth: 100
   damageAmount: 1
@@ -169,6 +171,7 @@ MonoBehaviour:
   - {fileID: -388405051, guid: 5775406b9bc84464283b251469d01efe, type: 3}
   - {fileID: 580479302, guid: 5775406b9bc84464283b251469d01efe, type: 3}
   - {fileID: 2101227234, guid: 5775406b9bc84464283b251469d01efe, type: 3}
+  canRotateHead: 1
 --- !u!61 &8800091341185158415
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -421,6 +424,7 @@ MonoBehaviour:
   speed: 6
   stoppingDistance: 0
   maxVelocity: 10
+  canKnockBack: 1
 --- !u!50 &8800091341185158412
 Rigidbody2D:
   serializedVersion: 4
@@ -448,6 +452,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-2722971033905840008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800091341185158411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe248775710f414887ab16933e288c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 521af6a26d0745c4a91dabbdf098aff5, type: 2}
+  duration: 0.2
+  bodyRenderer: {fileID: 8800091340970297810}
+  headRenderer: {fileID: 8800091342163308805}
 --- !u!1 &8800091341983187244
 GameObject:
   m_ObjectHideFlags: 0
