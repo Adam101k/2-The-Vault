@@ -105,6 +105,7 @@ public class BossBehavior : MonoBehaviour
 
     IEnumerator ChargingPreparation()
     {
+        bodySprite.color = Color.red; // change boss color to red for visual indication
         rb.velocity = Vector2.zero;
         // Add your animation or sound effects here.
         yield return new WaitForSeconds(chargePreparationTime);
@@ -135,14 +136,11 @@ public class BossBehavior : MonoBehaviour
 
     IEnumerator StartChargeCooldown()
 {
-    Debug.Log("Cooldown Started!"); // log for debugging
-    bodySprite.color = Color.red; // change boss color to red for visual indication
+    bodySprite.color = originalColor; // revert boss color to its original color
 
     isChargeOnCooldown = true;  // Start the cooldown
     yield return new WaitForSeconds(chargeCooldownTime);  // Wait for the cooldown duration
 
-    Debug.Log("Cooldown Ended!"); // log for debugging
-    bodySprite.color = originalColor; // revert boss color to its original color
 
     isChargeOnCooldown = false;  // End the cooldown
 }
