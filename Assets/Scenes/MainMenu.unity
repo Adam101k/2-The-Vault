@@ -1129,6 +1129,7 @@ GameObject:
   - component: {fileID: 978700924}
   - component: {fileID: 978700926}
   - component: {fileID: 978700925}
+  - component: {fileID: 978700927}
   m_Layer: 5
   m_Name: CreditBlurb
   m_TagString: Untagged
@@ -1255,6 +1256,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978700923}
   m_CullTransparentMesh: 1
+--- !u!95 &978700927
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978700923}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1dbad31cdec631a47b35f1af93968e41, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1012834246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,7 +2391,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 18b131653b34af845892126568754ae5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9c5c043c11b00024b81a0fbd74cd7ab4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
