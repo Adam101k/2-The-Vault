@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3121233391407714511}
   - component: {fileID: 3121233391407714506}
   - component: {fileID: 8583020896268364344}
+  - component: {fileID: -1263882869613193038}
   m_Layer: 6
   m_Name: Boss1
   m_TagString: 1
@@ -39,7 +40,7 @@ Transform:
   - {fileID: 3121233393224965365}
   - {fileID: 7265117431023932694}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3121233391407714504
 MonoBehaviour:
@@ -53,8 +54,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2c9384353427d45b7fdda9852faba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 200
-  maxHealth: 200
+  flashEffect: {fileID: 0}
+  currentHealth: 300
+  maxHealth: 300
   damageAmount: 2
   headDirectionSprites: []
   canRotateHead: 0
@@ -346,6 +348,22 @@ MonoBehaviour:
   startShootRange: 5.14
   chargeCooldownTime: 3
   bodySprite: {fileID: 3121233391545111572}
+--- !u!114 &-1263882869613193038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121233391407714509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe248775710f414887ab16933e288c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 521af6a26d0745c4a91dabbdf098aff5, type: 2}
+  duration: 0.2
+  bodyRenderer: {fileID: 3121233391545111572}
+  headRenderer: {fileID: 3121233392499600579}
 --- !u!1 &3121233391545111562
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject logoScreenCover;
     public GameObject MainMenuObj;
+    public GameObject pressStart;
     private bool CoverStartActive = true;
     private bool MainMenuActive = false;
     public KeyCode StartKey = KeyCode.Return;
@@ -14,6 +15,7 @@ public class MainMenu : MonoBehaviour
     private void Update() {
         if(CoverStartActive && Input.GetKeyDown(StartKey) && !MainMenuActive) {
             logoScreenCover.GetComponent<Animator>().SetBool("CoverIsOpen", true);
+            pressStart.GetComponent<Animator>().SetBool("MenuIsOpen", true);
             MainMenuObj.GetComponent<Animator>().SetBool("MenuIsOpen", true);
             CoverStartActive = false;
             MainMenuActive = true;
@@ -21,6 +23,7 @@ public class MainMenu : MonoBehaviour
         
         if(!CoverStartActive && Input.GetKeyDown(EscapeKey) && MainMenuActive) {
             logoScreenCover.GetComponent<Animator>().SetBool("CoverIsOpen", false);
+            pressStart.GetComponent<Animator>().SetBool("MenuIsOpen", false);
             MainMenuObj.GetComponent<Animator>().SetBool("MenuIsOpen", false);
             CoverStartActive = true;
             MainMenuActive = false;
