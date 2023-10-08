@@ -25,6 +25,10 @@ public class MainMenu : MonoBehaviour
             CoverStartActive = true;
             MainMenuActive = false;
         }
+
+        if(CoverStartActive && Input.GetKeyDown(EscapeKey)) {
+            ExitGame();
+        }
     }
 
     public void PlayGame() {
@@ -32,7 +36,7 @@ public class MainMenu : MonoBehaviour
     }
 
     public void ExitGame() {
-        //
+        Application.Quit();
     }
 
     public void OpenOptionMenu() {
