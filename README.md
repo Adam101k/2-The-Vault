@@ -1,7 +1,8 @@
 # About
 To The Vault was Solo developed in 15 days as a personal challenge to improve my 2D game skills. This prototype outlines a simple roguelike where you progress through rooms of enemies with a final boss you must beat to win the game. This project was done during the Winter of 2023. </br>
+
 <div align="center">
-  <img src = "ToTheVaultPreview.gif> </br>
+  <img src="ToTheVaultPreview.gif> </br>
 </div>
 
 # GDD
